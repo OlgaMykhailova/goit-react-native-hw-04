@@ -145,6 +145,7 @@ export const RegistrationScreen = ({navigation}) => {
                     onBlur={() => setIsFocusedLogin(false)}
                     value={login}
                     placeholder="Login"
+                    textContentType={'username'}
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
                     onChangeText={loginHandler}
@@ -159,6 +160,7 @@ export const RegistrationScreen = ({navigation}) => {
                     onBlur={() => setIsFocusedEmail(false)}
                     value={email}
                     placeholder="Email"
+                    textContentType={'emailAddress'}
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
                     onChangeText={emailHandler}
@@ -173,6 +175,7 @@ export const RegistrationScreen = ({navigation}) => {
                     onFocus={() => setIsFocusedPassword(true)}
                     onBlur={() => setIsFocusedPassword(false)}
                     value={password}
+                    textContentType={'password'}
                     placeholder="Password"
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
@@ -263,7 +266,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderWidth: 1,
     borderRadius: 8,
-
     color: "#212121",
   },
   showPassword: {

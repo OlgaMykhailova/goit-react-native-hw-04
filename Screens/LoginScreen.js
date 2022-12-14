@@ -128,6 +128,7 @@ export const LoginScreen = ({navigation}) => {
                     onBlur={() => setIsFocusedEmail(false)}
                     value={email}
                     placeholder="Email"
+                    textContentType={'emailAddress'}
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
                     onChangeText={emailHandler}
@@ -143,6 +144,7 @@ export const LoginScreen = ({navigation}) => {
                     onBlur={() => setIsFocusedPassword(false)}
                     value={password}
                     placeholder="Password"
+                    textContentType={'password'}
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
                     secureTextEntry={isPasswordHidden}
