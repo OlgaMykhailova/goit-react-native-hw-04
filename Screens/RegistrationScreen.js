@@ -18,10 +18,11 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import Add from "../assets/images/add.svg";
 
-export const RegistrationScreen = () => {
+export const RegistrationScreen = ({navigation}) => {
   const [fontsLoaded] = useFonts({
-    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+    RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
+    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
   });
 
   const [login, setLogin] = useState("");
@@ -131,14 +132,14 @@ export const RegistrationScreen = () => {
                   <Add />
                 </TouchableOpacity>
                 <View style={{ width: windowWidth - 16 * 2 }}>
-                  <Text style={{ ...styles.title, fontFamily: "RobotoBold" }}>
+                  <Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
                     Registration
                   </Text>
                   <TextInput
                     style={{
                       ...styles.input,
                       borderColor: isFocusedLogin ? "#FF6C00" : "#E8E8E8",
-                      fontFamily: "Roboto"
+                      fontFamily: "Roboto",
                     }}
                     onFocus={() => setIsFocusedLogin(true)}
                     onBlur={() => setIsFocusedLogin(false)}
@@ -152,7 +153,7 @@ export const RegistrationScreen = () => {
                     style={{
                       ...styles.input,
                       borderColor: isFocusedEmail ? "#FF6C00" : "#E8E8E8",
-                      fontFamily: "Roboto"
+                      fontFamily: "Roboto",
                     }}
                     onFocus={() => setIsFocusedEmail(true)}
                     onBlur={() => setIsFocusedEmail(false)}
@@ -167,7 +168,7 @@ export const RegistrationScreen = () => {
                     style={{
                       ...styles.input,
                       borderColor: isFocusedPassword ? "#FF6C00" : "#E8E8E8",
-                      fontFamily: "Roboto"
+                      fontFamily: "Roboto",
                     }}
                     onFocus={() => setIsFocusedPassword(true)}
                     onBlur={() => setIsFocusedPassword(false)}
@@ -184,15 +185,24 @@ export const RegistrationScreen = () => {
                       setIsPasswordHidden((prevState) => !prevState)
                     }
                   >
-                    <Text style={{...styles.textShowPassword,  fontFamily: "Roboto"}}>
+                    <Text
+                      style={{
+                        ...styles.textShowPassword,
+                        fontFamily: "Roboto",
+                      }}
+                    >
                       {isPasswordHidden ? "Show" : "Hide"}
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={onLogin}>
-                    <Text style={{...styles.textButton,  fontFamily: "Roboto"}}>Sign Up</Text>
+                    <Text
+                      style={{ ...styles.textButton, fontFamily: "Roboto" }}
+                    >
+                      Sign Up
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text style={{...styles.link,  fontFamily: "Roboto"}}>
+                  <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                    <Text style={{ ...styles.link, fontFamily: "Roboto" }}>
                       Have already an account? Sign in
                     </Text>
                   </TouchableOpacity>

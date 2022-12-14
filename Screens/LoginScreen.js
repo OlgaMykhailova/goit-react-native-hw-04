@@ -16,12 +16,12 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import Add from "../assets/images/add.svg";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({navigation}) => {
   const [fontsLoaded] = useFonts({
-    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+    RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
+    RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
   });
 
   const [email, setEmail] = useState("");
@@ -114,7 +114,7 @@ export const LoginScreen = () => {
               >
 
                 <View style={{ width: windowWidth - 16 * 2 }}>
-                  <Text style={{ ...styles.title, fontFamily: "RobotoBold" }}>
+                  <Text style={{ ...styles.title, fontFamily: "RobotoMedium" }}>
                     Login
                   </Text>
 
@@ -170,7 +170,7 @@ export const LoginScreen = () => {
                       Sign In
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => navigation.navigate("Registration")}>
                     <Text style={{ ...styles.link, fontFamily: "Roboto" }}>
                       Don't have an account? Register
                     </Text>
