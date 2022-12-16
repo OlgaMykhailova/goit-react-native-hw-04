@@ -9,7 +9,6 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Text,
   TouchableOpacity,
   Dimensions,
@@ -19,7 +18,7 @@ import DownloadPhoto from "../assets/images/downloadPhoto.svg";
 import Location from "../assets/images/location.svg";
 import Trash from "../assets/images/trash.svg";
 
-export const CreatePostsScreen = () => {
+export const CreatePostsScreen = ({navigation}) => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
     RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
@@ -145,6 +144,7 @@ export const CreatePostsScreen = () => {
                 cursorColor={"#BDBDBD"}
                 placeholderTextColor={"#BDBDBD"}
                 onChangeText={locationHandler}
+                onPressIn={() => navigation.navigate('Map')}
               ></TextInput>
               <Location style={styles.locationIcon} />
             </View>

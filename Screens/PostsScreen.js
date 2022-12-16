@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import {
+  TouchableOpacity,
   StyleSheet,
   View,
   Image,
@@ -41,7 +42,7 @@ const POSTS = [
   },
 ];
 
-export const PostsScreen = () => {
+export const PostsScreen = ({navigation}) => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
     RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
@@ -127,10 +128,10 @@ export const PostsScreen = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <View style={styles.wrapper}>
+                      <TouchableOpacity style={styles.wrapper} onPress={() => navigation.navigate("Comments")}>
                         <Message />
                         <Text style={styles.cardText}>{item.comments}</Text>
-                      </View>
+                      </TouchableOpacity>
                       <View style={{ ...styles.wrapper, marginLeft: 24 }}>
                         <Like />
                         <Text style={styles.cardText}>{item.likes}</Text>

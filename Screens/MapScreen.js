@@ -1,6 +1,6 @@
 import React from "react";
-import { Text } from "react-native";
+import { View, Text } from "react-native";
 
 export const MapScreen = () => {
-    return <Text>MapScreen</Text>
+    return <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text>MapScreen</Text></View>
 }

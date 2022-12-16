@@ -1,6 +1,6 @@
 import React from "react";
-import { Text } from "react-native";
+import { BottomTabMenu } from '../Routes/BottomTab'
 
-export const MapScreen = () => {
-    return <Text>HomeScreen</Text>
+export const Home = ({navigation}) => {
+    return (<BottomTabMenu navigation={navigation}/>);
 }

@@ -1,24 +1,21 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View } from "react-native";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-import { LoginScreen } from "./Screens/LoginScreen";
-import { PostsScreen } from "./Screens/PostsScreen";
-import { CreatePostsScreen } from "./Screens/CreatePostsScreen";
-import { ProfileScreen } from "./Screens/ProfileScreen";
-import ArrowLeft from "./assets/images/arrowLeft.svg";
-import Grid from "./assets/images/grid.svg";
-import User from "./assets/images/user.svg";
-import Plus from "./assets/images/plus.svg";
-import Logout from "./assets/images/logout.svg";
+import { TouchableOpacity, View } from "react-native";
 
-const AuthStack = createStackNavigator();
+import { PostsScreen } from "../Screens/PostsScreen";
+import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
+import { ProfileScreen } from "../Screens/ProfileScreen";
+
+import ArrowLeft from "../assets/images/arrowLeft.svg";
+import Grid from "../assets/images/grid.svg";
+import User from "../assets/images/user.svg";
+import Plus from "../assets/images/plus.svg";
+import Logout from "../assets/images/logout.svg";
+
 const BottomTab = createBottomTabNavigator();
 
-export const useRoute = (isLogin) => {
-  return isLogin ? (
+export const BottomTabMenu = ({navigation}) => {
+  return (
     <BottomTab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
@@ -68,7 +65,7 @@ export const useRoute = (isLogin) => {
             </View>
           ),
           headerRight: ({ focused, size, color }) => (
-            <TouchableOpacity>
+            <TouchableOpacity >
               <Logout size={size} color={color} />
             </TouchableOpacity>
           ),
@@ -100,7 +97,7 @@ export const useRoute = (isLogin) => {
             </View>
           ),
           headerLeft: ({ focused, size, color }) => (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Posts')}>
               <ArrowLeft size={size} color={color} />
             </TouchableOpacity>
           ),
@@ -132,18 +129,5 @@ export const useRoute = (isLogin) => {
         }}
       />
     </BottomTab.Navigator>
-  ) : (
-    <AuthStack.Navigator initialRouteName="Login">
-      <AuthStack.Screen
-        options={{ headerShown: false }}
-        name="Registration"
-        component={RegistrationScreen}
-      ></AuthStack.Screen>
-      <AuthStack.Screen
-        options={{ headerShown: false }}
-        name="Login"
-        component={LoginScreen}
-      ></AuthStack.Screen>
-    </AuthStack.Navigator>
   );
 };
