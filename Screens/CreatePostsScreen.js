@@ -14,9 +14,10 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import ArrowLeft from "../assets/images/arrowLeft.svg";
+
 import DownloadPhoto from "../assets/images/downloadPhoto.svg";
 import Location from "../assets/images/location.svg";
+import Trash from "../assets/images/trash.svg";
 
 export const CreatePostsScreen = () => {
   const [fontsLoaded] = useFonts({
@@ -34,7 +35,8 @@ export const CreatePostsScreen = () => {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabledPublish, setIsDisabledPublish] = useState(true);
+  const [isDisabledTrash, setIsDisabledTrash] = useState(true);
 
   const titleHandler = (title) => setTitle(title);
   const locationHandler = (location) => setLocation(location);
@@ -50,7 +52,13 @@ export const CreatePostsScreen = () => {
   }, []);
 
   useEffect(() => {
-    (title && location) ? setIsDisabled(false) : setIsDisabled(true)
+    title && location
+      ? setIsDisabledPublish(false)
+      : setIsDisabledPublish(true);
+  }, [title, location]);
+
+  useEffect(() => {
+    title || location ? setIsDisabledTrash(false) : setIsDisabledTrash(true);
   }, [title, location]);
 
   const onPublish = () => {
@@ -62,6 +70,13 @@ export const CreatePostsScreen = () => {
     console.log(title, location);
     setTitle("");
     setLocation("");
+    Keyboard.dismiss();
+  };
+
+  const onDelete = () => {
+    setTitle("");
+    setLocation("");
+    Alert.alert(`Successfully deleted!`);
     Keyboard.dismiss();
   };
 
@@ -80,80 +95,91 @@ export const CreatePostsScreen = () => {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <KeyboardAvoidingView
       onLayout={onLayout}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <TouchableWithoutFeedback>
-        <View style={{ flex: 1 }}>
-          <View style={styles.header}>
-            <Text style={{ ...styles.title, fontFamily: "RobotoBold" }}>
-              Create post
-            </Text>
-            <TouchableOpacity style={styles.arrowLeftButton}>
-              <ArrowLeft />
-            </TouchableOpacity>
-          </View>
-          <ScrollView>
-            <View style={{ ...styles.section, width: windowWidth }}>
-              <View
-                style={{ ...styles.contentBlock, width: windowWidth - 16 * 2 }}
-              >
-                <TouchableOpacity>
-                  <DownloadPhoto />
-                </TouchableOpacity>
-              </View>
-              <View style={{ width: "100%", alignItems: "flex-start" }}>
-                <Text style={styles.text}>Download photo</Text>
-              </View>
-              <View style={{ width: windowWidth - 16 * 2 }}>
-                <TextInput
-                  style={{
-                    ...styles.input,
-                    borderColor: isFocusedTitle ? "#FF6C00" : "#E8E8E8",
-                    fontFamily: "Roboto",
-                  }}
-                  onFocus={() => setIsFocusedTitle(true)}
-                  onBlur={() => setIsFocusedTitle(false)}
-                  value={title}
-                  placeholder="Title..."
-                  cursorColor={"#BDBDBD"}
-                  placeholderTextColor={"#BDBDBD"}
-                  onChangeText={titleHandler}
-                ></TextInput>
-                <TextInput
-                  style={{
-                    ...styles.input,
-                    borderColor: isFocusedLocation ? "#FF6C00" : "#E8E8E8",
-                    paddingLeft: 26,
-                    fontFamily: "Roboto",
-                  }}
-                  onFocus={() => setIsFocusedLocation(true)}
-                  onBlur={() => setIsFocusedLocation(false)}
-                  value={location}
-                  textContentType={"location"}
-                  placeholder="Location"
-                  cursorColor={"#BDBDBD"}
-                  placeholderTextColor={"#BDBDBD"}
-                  onChangeText={locationHandler}
-                ></TextInput>
-                <Location style={styles.locationIcon} />
-              </View>
-              <TouchableOpacity
-                style={{ ...styles.button, width: windowWidth - 16 * 2, backgroundColor: isDisabled ? "#F6F6F6" : '#FF6C00'}}
-                onPress={onPublish}
-                disabled={isDisabled}
-              >
-                <Text style={{ ...styles.textButton, color: isDisabled ? "#BDBDBD" : '#FFFFFF', fontFamily: "Roboto" }}>
-                  Publish
-                </Text>
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={{ ...styles.section, width: windowWidth }}>
+            <View
+              style={{ ...styles.contentBlock, width: windowWidth - 16 * 2 }}
+            >
+              <TouchableOpacity>
+                <DownloadPhoto />
               </TouchableOpacity>
             </View>
-          </ScrollView>
-        </View>
-      </TouchableWithoutFeedback>
+            <View style={{ width: "100%", alignItems: "flex-start" }}>
+              <Text style={styles.text}>Download photo</Text>
+            </View>
+            <View style={{ width: windowWidth - 16 * 2 }}>
+              <TextInput
+                style={{
+                  ...styles.input,
+                  borderColor: isFocusedTitle ? "#FF6C00" : "#E8E8E8",
+                  fontFamily: "Roboto",
+                }}
+                onFocus={() => setIsFocusedTitle(true)}
+                onBlur={() => setIsFocusedTitle(false)}
+                value={title}
+                placeholder="Title..."
+                cursorColor={"#BDBDBD"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={titleHandler}
+              ></TextInput>
+              <TextInput
+                style={{
+                  ...styles.input,
+                  borderColor: isFocusedLocation ? "#FF6C00" : "#E8E8E8",
+                  paddingLeft: 26,
+                  fontFamily: "Roboto",
+                }}
+                onFocus={() => setIsFocusedLocation(true)}
+                onBlur={() => setIsFocusedLocation(false)}
+                value={location}
+                textContentType={"location"}
+                placeholder="Location"
+                cursorColor={"#BDBDBD"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={locationHandler}
+              ></TextInput>
+              <Location style={styles.locationIcon} />
+            </View>
+            <TouchableOpacity
+              style={{
+                ...styles.publishButton,
+                width: windowWidth - 16 * 2,
+                backgroundColor: isDisabledPublish ? "#F6F6F6" : "#FF6C00",
+              }}
+              onPress={onPublish}
+              disabled={isDisabledPublish}
+            >
+              <Text
+                style={{
+                  ...styles.textPublishButton,
+                  color: isDisabledPublish ? "#BDBDBD" : "#FFFFFF",
+                  fontFamily: "Roboto",
+                }}
+              >
+                Publish
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                ...styles.trashButton,
+                backgroundColor: isDisabledTrash ? "#F6F6F6" : "#FF6C00",
+              }}
+              onPress={onDelete}
+              disabled={isDisabledTrash}
+            >
+              <Trash stroke={isDisabledTrash ? "#BDBDBD" : "#FFFFFF"} />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -163,30 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-  header: {
-    justifyContent: "flex-end",
-    height: 88,
-    elevation: 1,
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 0.5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 27.18,
-  },
-  title: {
-    marginBottom: 11,
-    fontSize: 17,
-    lineHeight: 22,
-    color: "#212121",
-    textAlign: "center",
-  },
-  arrowLeftButton: {
-    position: "absolute",
-    top: 53,
-    left: 16,
-    width: 25,
-    height: 25,
-  },
+
   section: {
     flex: 1,
     alignItems: "center",
@@ -226,17 +229,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 16,
   },
-  button: {
+  publishButton: {
     height: 51,
     marginTop: 27,
     paddingVertical: 16,
-    
     borderRadius: 100,
   },
-  textButton: {
+  textPublishButton: {
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",
     color: "#BDBDBD",
+  },
+  trashButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 80,
+    width: 70,
+    height: 40,
+    borderRadius: 20,
   },
 });

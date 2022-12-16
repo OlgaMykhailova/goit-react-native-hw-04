@@ -145,7 +145,7 @@ export const RegistrationScreen = ({navigation}) => {
                     onBlur={() => setIsFocusedLogin(false)}
                     value={login}
                     placeholder="Login"
-                    textContentType={'username'}
+                    textContentType={'emailAddress'}
                     cursorColor={"#BDBDBD"}
                     placeholderTextColor={"#BDBDBD"}
                     onChangeText={loginHandler}

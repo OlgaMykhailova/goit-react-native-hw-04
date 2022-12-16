@@ -5,13 +5,41 @@ import {
   StyleSheet,
   View,
   Image,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Text,
-  TouchableOpacity,
   Dimensions,
+  FlatList,
+  ScrollView,
 } from "react-native";
-import Logout from "../assets/images/logout.svg";
+import Message from "../assets/images/message.svg";
+import Like from "../assets/images/like.svg";
+import Location from "../assets/images/location.svg";
+
+const POSTS = [
+  {
+    id: 1,
+    postImage: require("../assets/images/forrest.jpg"),
+    title: "Forrest",
+    location: "Ukraine",
+    comments: 8,
+    likes: 153,
+  },
+  {
+    id: 2,
+    postImage: require("../assets/images/sunset.jpg"),
+    title: "Sunset on the Black Sea",
+    location: "Ukraine",
+    comments: 3,
+    likes: 200,
+  },
+  {
+    id: 3,
+    postImage: require("../assets/images/oldhouse.jpg"),
+    title: "Old house in Venice",
+    location: "Italy",
+    comments: 50,
+    likes: 200,
+  },
+];
 
 export const PostsScreen = () => {
   const [fontsLoaded] = useFonts({
@@ -23,6 +51,8 @@ export const PostsScreen = () => {
   const [windowWidth, setWindowWidth] = useState(
     Dimensions.get("window").width
   );
+
+  const [posts, setPosts] = useState(POSTS);
 
   useEffect(() => {
     const onChange = () => {
@@ -51,76 +81,90 @@ export const PostsScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      onLayout={onLayout}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback>
-        <View style={{ flex: 1 }}>
-          <View style={styles.header}>
-            <Text style={{ ...styles.title, fontFamily: "RobotoBold" }}>
-              Posts
-            </Text>
-            <TouchableOpacity style={styles.logoutButton}>
-              <Logout />
-            </TouchableOpacity>
-          </View>
-          <View style={{ ...styles.section, width: windowWidth - 16 * 2 }}>
-            <View style={styles.userSection}>
-              <Image
-                style={styles.avatarImage}
-                source={require("../assets/images/userAvatar.jpg")}
-              />
-              <View style={styles.userInfo}>
-                <Text style={{...styles.textUserName, fontFamily: "RobotoBold"}}>Natali Romanova</Text>
-                <Text style={{...styles.textUserEmail, fontFamily: "Roboto"}}>email@example.com</Text>
-              </View>
+    <ScrollView>
+      <View
+        onLayout={onLayout}
+        style={{ backgroundColor: "#FFFFFF", alignItems: "center" }}
+      >
+        <View style={{ ...styles.container, width: windowWidth - 16 * 2 }}>
+          <View style={styles.userSection}>
+            <Image
+              style={styles.avatarImage}
+              source={require("../assets/images/userAvatar.jpg")}
+            />
+            <View style={styles.userInfo}>
+              <Text
+                style={{ ...styles.textUserName, fontFamily: "RobotoBold" }}
+              >
+                Natali Romanova
+              </Text>
+              <Text style={{ ...styles.textUserEmail, fontFamily: "Roboto" }}>
+                email@example.com
+              </Text>
             </View>
           </View>
+          <View style={styles.cardSection}>
+            <FlatList
+              data={posts}
+              renderItem={({ item }) => (
+                <View style={{ ...styles.cardContainer }}>
+                  <Image
+                    source={item.postImage}
+                    style={{
+                      ...styles.cardImage,
+                      width: windowWidth - 16 * 2,
+                    }}
+                  />
+                  <Text
+                    style={{ ...styles.cardTitle, fontFamily: "RobotoMedium" }}
+                  >
+                    {item.title}
+                  </Text>
+                  <View style={styles.cardThumb}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <View style={styles.wrapper}>
+                        <Message />
+                        <Text style={styles.cardText}>{item.comments}</Text>
+                      </View>
+                      <View style={{ ...styles.wrapper, marginLeft: 24 }}>
+                        <Like />
+                        <Text style={styles.cardText}>{item.likes}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.wrapper}>
+                      <Location />
+                      <Text style={styles.cardText}>{item.location}</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{
+                flexGrow: 1,
+                alignItems: "center",
+              }}
+            />
+          </View>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  header: {
-   justifyContent: 'flex-end',
-    height: 88,
-    elevation: 1,
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 0.5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 27.18,
-  },
-  title: {
-    marginBottom: 11,
-    fontSize: 17,
-    lineHeight: 22,
-    color: "#212121",
-    textAlign: "center",
-  },
-  logoutButton: {
-    position: "absolute",
-    top: 53,
-    right: 16,
-    width: 25,
-    height: 25,
-  },
-  section: {
-    flex: 1,
-    paddingLeft: 16,
-    marginTop: 32,
+    alignItems: "center",
   },
   userSection: {
+    marginTop: 32,
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
   },
   avatarImage: {
     width: 60,
@@ -141,5 +185,38 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     fontSize: 11,
     lineHeight: 13,
-  }
+  },
+  cardSection: {
+    alignItems: "center",
+    width: "100%",
+    marginTop: 32,
+  },
+  cardContainer: {},
+  cardImage: {
+    resizeMode: "cover",
+    borderRadius: 8,
+  },
+  cardTitle: {
+    marginTop: 8,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+  },
+  cardThumb: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+    marginBottom: 35,
+  },
+  wrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardText: {
+    marginLeft: 4,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+  },
 });
