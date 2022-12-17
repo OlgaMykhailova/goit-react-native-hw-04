@@ -103,61 +103,65 @@ export const CommentsScreen = () => {
   }
 
   return (
-    <ScrollView>
-      <View
-        onLayout={onLayout}
-        style={{ backgroundColor: "#FFFFFF", alignItems: "center" }}
-      >
-        <View style={{ ...styles.container, width: windowWidth - 16 * 2 }}>
-          <Image
-            style={styles.commentImage}
-            source={require("../assets/images/sunset.jpg")}
-          />
-          <View style={{ width: windowWidth - 16 * 2 }}>
-            <FlatList
-              contentContainerStyle={{ width: windowWidth - 16 * 2 }}
-              data={posts.commentsTexts}
-              renderItem={({ item }) => (
-                <View
-                  style={{
-                    ...styles.commentWrapper,
-                    width: windowWidth - 16 * 2,
-                  }}
-                >
-                  <Image
-                    source={item.userAvatar}
-                    style={styles.commentAvatarImage}
-                  />
-                  <View
-                    style={{
-                      ...styles.textWrapper,
-                      width: windowWidth - 28 - 16 * 3,
-                    }}
-                  >
-                    <Text style={styles.commentText}>{item.text}</Text>
-                    <Text style={styles.commentDate}>
-                      {item.date} | {item.time}
-                    </Text>
-                  </View>
-                </View>
-              )}
-            />
-          </View>
-          <View style={{width: '100%'}}>
-          <TextInput
-            value={comment}
-            style={styles.input}
-            placeholder="Leave a comment"
-            cursorColor={"#BDBDBD"}
-            placeholderTextColor={"#BDBDBD"}
-            onChangeText={commentHandler}
-          ></TextInput>
-          <TouchableOpacity style={styles.sendButton} onPress={onSend}><Send style={{width: 34,
-height: 34}}/></TouchableOpacity>
-          </View>
-        </View>
+    <View
+      onLayout={onLayout}
+      style={{ backgroundColor: "#FFFFFF", alignItems: "center" }}
+    >
+      <View style={{ width: windowWidth - 16 * 2 }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View style={{ ...styles.container, width: windowWidth - 16 * 2 }}>
+              <Image
+                style={styles.commentImage}
+                source={require("../assets/images/sunset.jpg")}
+              />
+            </View>
+          }
+          ListFooterComponent={
+            <View style={{ width: "100%", marginBottom: 32 }}>
+              <TextInput
+                value={comment}
+                style={styles.input}
+                placeholder="Leave a comment"
+                cursorColor={"#BDBDBD"}
+                placeholderTextColor={"#BDBDBD"}
+                onChangeText={commentHandler}
+              ></TextInput>
+              <TouchableOpacity style={styles.sendButton} onPress={onSend}>
+                <Send style={{ width: 34, height: 34 }} />
+              </TouchableOpacity>
+            </View>
+          }
+          contentContainerStyle={{ width: windowWidth - 16 * 2 }}
+          data={posts.commentsTexts}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                ...styles.commentWrapper,
+                width: windowWidth - 16 * 2,
+              }}
+            >
+              <Image
+                source={item.userAvatar}
+                style={styles.commentAvatarImage}
+              />
+              <View
+                style={{
+                  ...styles.textWrapper,
+                  width: windowWidth - 28 - 16 * 3,
+                }}
+              >
+                <Text style={styles.commentText}>{item.text}</Text>
+                <Text style={styles.commentDate}>
+                  {item.date} | {item.time}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -216,9 +220,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   sendButton: {
-position: 'absolute',
-top: 15,
-right: 8,
-
+    position: "absolute",
+    top: 15,
+    right: 8,
   },
 });

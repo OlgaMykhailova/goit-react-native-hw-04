@@ -9,7 +9,6 @@ import {
   Text,
   Dimensions,
   FlatList,
-  ScrollView,
 } from "react-native";
 import Message from "../assets/images/message.svg";
 import Like from "../assets/images/like.svg";
@@ -42,7 +41,7 @@ const POSTS = [
   },
 ];
 
-export const PostsScreen = ({navigation}) => {
+export const PostsScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
     RobotoMedium: require("../assets/fonts/Roboto-Medium.ttf"),
@@ -82,12 +81,12 @@ export const PostsScreen = ({navigation}) => {
   }
 
   return (
-    <ScrollView>
-      <View
-        onLayout={onLayout}
-        style={{ backgroundColor: "#FFFFFF", alignItems: "center" }}
-      >
-        <View style={{ ...styles.container, width: windowWidth - 16 * 2 }}>
+    <View
+      onLayout={onLayout}
+      style={{ backgroundColor: "#FFFFFF", alignItems: "center" }}
+    >
+      <FlatList
+        ListHeaderComponent={
           <View style={styles.userSection}>
             <Image
               style={styles.avatarImage}
@@ -104,65 +103,60 @@ export const PostsScreen = ({navigation}) => {
               </Text>
             </View>
           </View>
-          <View style={styles.cardSection}>
-            <FlatList
-              data={posts}
-              renderItem={({ item }) => (
-                <View style={{ ...styles.cardContainer }}>
-                  <Image
-                    source={item.postImage}
-                    style={{
-                      ...styles.cardImage,
-                      width: windowWidth - 16 * 2,
-                    }}
-                  />
-                  <Text
-                    style={{ ...styles.cardTitle, fontFamily: "RobotoMedium" }}
-                  >
-                    {item.title}
-                  </Text>
-                  <View style={styles.cardThumb}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <TouchableOpacity style={styles.wrapper} onPress={() => navigation.navigate("Comments")}>
-                        <Message />
-                        <Text style={styles.cardText}>{item.comments}</Text>
-                      </TouchableOpacity>
-                      <View style={{ ...styles.wrapper, marginLeft: 24 }}>
-                        <Like />
-                        <Text style={styles.cardText}>{item.likes}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.wrapper}>
-                      <Location />
-                      <Text style={styles.cardText}>{item.location}</Text>
-                    </View>
-                  </View>
-                </View>
-              )}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={{
-                flexGrow: 1,
-                alignItems: "center",
+        }
+        data={posts}
+        renderItem={({ item }) => (
+          <View style={{ ...styles.cardContainer }}>
+            <Image
+              source={item.postImage}
+              style={{
+                ...styles.cardImage,
+                width: windowWidth - 16 * 2,
               }}
             />
+            <Text style={{ ...styles.cardTitle, fontFamily: "RobotoMedium" }}>
+              {item.title}
+            </Text>
+            <View style={styles.cardThumb}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.wrapper}
+                  onPress={() => navigation.navigate("Comments")}
+                >
+                  <Message />
+                  <Text style={styles.cardText}>{item.comments}</Text>
+                </TouchableOpacity>
+                <View style={{ ...styles.wrapper, marginLeft: 24 }}>
+                  <Like />
+                  <Text style={styles.cardText}>{item.likes}</Text>
+                </View>
+              </View>
+              <View style={styles.wrapper}>
+                <Location />
+                <Text style={styles.cardText}>{item.location}</Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </ScrollView>
+        )}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-  },
+  
   userSection: {
-    marginTop: 32,
+    marginVertical: 32,
     flexDirection: "row",
     alignItems: "center",
     width: "100%",

@@ -97,7 +97,7 @@ export const BottomTabMenu = ({navigation}) => {
             </View>
           ),
           headerLeft: ({ focused, size, color }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('Posts')}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <ArrowLeft size={size} color={color} />
             </TouchableOpacity>
           ),
